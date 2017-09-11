@@ -1,0 +1,40 @@
+1-gerar chave RSA 2048bits
+
+http://travistidwell.com/jsencrypt/demo/
+
+ou 
+
+http://www.herongyang.com/Cryptography/Certificate-Format-OpenSSL-Generate-in-DER-and-PEM.html
+
+>openssl genrsa -out herong.key -des 2048  (cuidado com o cabeçalho na .key)
+
+Enter pass phrase for herong.key: keypass
+Verifying - Enter pass phrase for herong.key: keypass
+
+2-gerar certificado PEM
+
+>openssl req -new -x509 -key herong.key -out openssl_crt.pem -outform pem
+
+Enter pass phrase for herong.key: keypass
+You are about to be asked to enter information that will be 
+incorporated into your certificate request.
+What you are about to enter is what is called a Distinguished 
+Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [CA]: PT
+State or Province Name (full name) [HY State]: .
+Locality Name (eg, city) [HY City]: .
+Organization Name (eg, company) [HY Company]: .
+Organizational Unit Name (eg, section) [HY Unit]: .
+Common Name (eg, YOUR name) [Herong Yang]: .
+Email Address [herongyang.com]: .
+
+3-converter PEM para DER
+
+>openssl x509 -in openssl_crt.pem -inform pem 
+-out openssl_crt.der -outform der
+
+4-copiar para a root do OpenMOSMSB
