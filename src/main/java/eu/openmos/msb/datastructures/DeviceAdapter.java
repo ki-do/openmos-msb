@@ -1225,6 +1225,7 @@ public abstract class DeviceAdapter
                     logger.debug("PARAMETER NAME: " + parameterNode.getNodeName());
                   }
                   ParameterSetting auxParameterSetting = new ParameterSetting();
+                  auxParameterSetting.setName(parameterNode.getNodeName());
 
                   NodeList auxNodeList12 = parameterNode.getChildNodes();
                   for (int h = 0; h < auxNodeList12.getLength(); h++)
@@ -1250,20 +1251,22 @@ public abstract class DeviceAdapter
                     else if (!auxNode.getNodeName().equals("Path") && !auxNode.getNodeName().equals("Type")
                             /*&& !auxNode.getNodeName().toLowerCase().endsWith("parameter")*/ && !auxNode.getNodeName().toLowerCase().endsWith("unit"))
                     {
-                      auxParameterSetting.setName(auxNode.getNodeName());
+                  	  if (auxParameterSetting.getName()==null) {
+                  		  auxParameterSetting.setName(auxNode.getNodeName());
+                  	  }
                       NodeList auxNodeList1 = auxNode.getChildNodes();
                       for (int index = 0; index < auxNodeList1.getLength(); index++)
                       {
                         Node auxNode1 = auxNodeList1.item(index);
                         if (auxNode1.getNodeName().equals("Value"))
                         {
-                          if (!auxNode1.getTextContent().equals(""))
-                          {
-                            auxParameterSetting.setValue(auxNode1.getTextContent());
-                          }
+                      	  if (!auxNode1.getTextContent().equals("")){
+                      		  auxParameterSetting.setValue(auxNode1.getTextContent());
+                      		  auxParameterSetting.setName(auxNode.getNodeName());
+                      	  }
                           if (report)
                           {
-                            logger.debug("PARAMETER value: " + auxNode1.getTextContent());
+                        	  logger.debug("PARAMETER value: " + auxParameterSetting.getValue());
                           }
                         }
                         else if (auxNode1.getNodeName().equals("Path"))
